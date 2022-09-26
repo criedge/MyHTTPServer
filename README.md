@@ -1,7 +1,7 @@
 # MyHTTPServer
 一个在TinyWebServer的基础上大干快上边抄边学的项目
 
-本项目是学习TinyWebServer(https://github.com/qinguoyi/TinyWebServer/)的产物
+本项目是学习TinyWebServer( https://github.com/qinguoyi/TinyWebServer/ )的产物
 一个在TinyWebServer的基础上大干快上边抄边学的项目
 
 基于Linux的多线程HTTP服务器
