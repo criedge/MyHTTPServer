@@ -23,9 +23,31 @@
 
 #include "../log/log.h"
 
-//连接咨议员结构体成员需要用到定时器类
+//连接资源结构体成员需要用到定时器类
 //需要前向声明
 class util_timer;
 
+//连接资源
+struct client_data{
+    sockaddr_in address;
+    int sockfd;
+    util_timer *timer;
+};
+
+class util_timer
+{
+
+};
+
+class sort_timer_lst{
+
+};
+
+class Utils
+{
+
+};
+
+void cb_func(client_data *user_data);
 
 #endif

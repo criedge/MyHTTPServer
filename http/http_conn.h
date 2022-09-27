@@ -25,4 +25,13 @@
 #include "../timer/lst_timer.h"
 #include "../log/log.h"
 
+//其他文件需要调用http_conn类
+//先声明，之后再实现
+class http_conn{
+public:
+    static const int FILENAME_LEN = 200;
+public:
+    http_conn();
+    ~http_conn();
+};
 #endif

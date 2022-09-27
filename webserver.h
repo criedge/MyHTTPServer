@@ -26,7 +26,7 @@
 
 //配置常量
 const int MAX_FD = 65536; //文件描述符的最大值
-const int MAX_EVENT_NUMBER = 10000; //最大事件数
+const int MAX_EVENT_NUMBER = 10000; //最大事件数 和epoll相关
 const int TIMESLOT = 5; //最小超时单位 单位：秒
 
 class WebServer
@@ -59,9 +59,51 @@ public:
     void dealwiththread(int socckfd);
     void dealwithwrite(int sockfd);
 public:
-    int m_port;
-    char *m_root;
-    
+    int m_port; // 服务器端口
+    char *m_root; // 根目录
+    int m_log_write; // 日志类型
+    int m_close_log; // 是否启动日志
+    int m_actormodel; // Reactor, Proactor
+    int m_pipefd[2]; //相互连接的套接字
+    int m_epollfd; //epoll对象
+    //到这里回头去声明http_conn类
+    http_conn *users; //每个对象存储并管理一个http连接
+
+    //到这里回头去声明connection_pool
+    //可以预见，对应的cpp文件肯定要操作类的成员
+    //到时候敲cpp文件再补具体实现吧
+    connection_pool *m_connPool;
+    string m_user; //数据库连接的用户名
+    string m_passWord; //数据库连接的密码
+    string m_databaseName; //数据库连接使用的库名
+    int m_sql_num;
+
+    //线程池相关
+    //居然使用模板定义 非常的高级
+    //回头敲threadpool类的头文件
+    threadpool<http_conn> *m_pool;
+    int m_thread_num;
+
+    //epoll_event相关：
+    //epoll模块 负责IO，从listen()获取客户端连接fd，处理连接
+    //
+    epoll_event events[MAX_EVENT_NUMBER];
+
+    int m_listenfd; //监听套接字
+    int m_OPT_LINGER;// 是否优雅下线
+    int m_TRIGMode; // ET/LT
+    int m_LISTENTrigmode; // ET/LT
+    int m_CONNTrigmode; // ET/LT
+
+    //定时器
+    //回头声明client_data
+    //lst_timer.h里的一个结构体
+    client_data *users_timer;
+
+    //工具类
+    //回头声明Utils类
+    //lst_timer.h里的一个类
+    Utils utils;
 };
 
 #endif
