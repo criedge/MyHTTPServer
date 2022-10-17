@@ -69,6 +69,9 @@ public:
         CLOSED_CONNECTION
     };
     //辅助状态机的状态，文本解析是否成功
+    //LINE_OK 读取完整一行
+    //LINE_BAD 行出错
+    //LINE_OPEN 行数据不完整 继续读取
     enum LINE_STATUS
     {
         LINE_OK = 0,
@@ -102,6 +105,9 @@ public:
 
 private:
     //重载无参数列表的init
+    //有意思的是，http_conn类向外开放了一个有参的init()
+    //然后http_conn类有一个私有的init()
+    //有参的init函数负责和外界交流初始化需要的数据，且该函数调用私有的init()完成初始化的必要内容
     void init();
     //从m_read_buf读取数据，并处理请求报文
     HTTP_CODE process_read();
@@ -144,8 +150,6 @@ private:
     char m_read_buf[READ_BUFFER_SIZE];
     //读缓冲下标
     int m_read_idx;
-    //m_read_buf读取的位置m_checked_idx 
-    // ??
     // m_read_buf中读取的位置m_checked_idx
     int m_checked_idx;
     // m_read_buf已经解析的字符数
@@ -165,7 +169,7 @@ private:
     //请求报文的HTTP协议版本
     char *m_version;
     //请求报文的源端地址，即对方客户端的IP地址
-    char *host;
+    char *m_host;
     int m_content_length;
     bool m_linger;
     //读取服务器上的文件地址

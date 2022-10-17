@@ -26,8 +26,10 @@ connection_pool *connection_pool::GetInstance()
     return &connPool;
 }
 
-//构造初始化
-void connection_pool::init( string url, string User, string PassWord, string DBName, int Port, int MaxConn, int close_log)
+//注意 由于是懒汉模式，因此在构造函数connection_pool和初始化函数init中都没有创建单例对象
+// 因此 初始化函数init只是初始化一系列业务相关的设置数据：用户名密码数据库名端口等
+// 底部实现 还是依赖mysql库
+void connection_pool::init(string url, string User, string PassWord, string DBName, int Port, int MaxConn, int close_log)
 {
     m_url = url;
     m_Port = Port;
